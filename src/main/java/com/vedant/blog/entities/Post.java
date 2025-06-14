@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,24 +23,24 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer postId;
-	
-	@Column(name = "title",nullable = false)
+
+	@Column(name = "title", nullable = false)
 	private String postTitle;
-	
+
 	@Column(length = 10000)
 	private String content;
-	
+
+	@Lob
+	@Column(columnDefinition = "LONGTEXT")
 	private String image;
-	
+
 	private Date addedDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
 	@ManyToOne
 	private User user;
-	
-	
-	
+
 }
