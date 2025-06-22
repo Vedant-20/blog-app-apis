@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vedant.blog.entities.Comment;
+import com.vedant.blog.entities.Post;
 import com.vedant.blog.exceptions.ResourceNotFoundException;
 import com.vedant.blog.payloads.CommentDto;
 import com.vedant.blog.repositories.CommentRepo;
@@ -86,8 +87,11 @@ public class CommentServiceImpl implements CommentService {
 			throw new ResourceNotFoundException("Post", "Post ID", postId);
 		}
 
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "Post ID", postId));
+
 		// Fetch comments for the post
-		List<Comment> comments = this.commentRepo.findByPostId(postId);
+		List<Comment> comments = this.commentRepo.findByPost(post);
 
 		// Map List<Comment> to List<CommentDto>
 		return comments.stream()
